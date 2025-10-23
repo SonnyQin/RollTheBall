@@ -1,17 +1,33 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using TMPro;
 
 public class PlayerMoveControl : MonoBehaviour
 {
-    Rigidbody rb;
+    private Rigidbody rb;
     private int count;
-    Vector2 movementVector;
+    private Vector2 movementVector;
+
+    public TextMeshProUGUI countText;
+    public GameObject winTextObject;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         count = 0;
+        SetCountText();
+        winTextObject.SetActive(false);
+    }
+
+    void SetCountText() 
+    {
+        countText.text = "Count: " + count.ToString();
+
+        if (count >= 12)
+        {
+            winTextObject.SetActive(true);
+        }
     }
 
     void OnMove(InputValue movementValue)
@@ -25,6 +41,7 @@ public class PlayerMoveControl : MonoBehaviour
         {
             other.gameObject.SetActive(false);
             count++;
+            SetCountText();
         }
     }
 
